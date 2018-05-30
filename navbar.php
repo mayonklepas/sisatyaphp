@@ -69,6 +69,23 @@ $datapesan=$h->read("SELECT id,tanggal,data_saran.kode_satuan_kerja,nama_satuan_
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <style>
+        table{
+            font-size:16px !important;
+        }
+        .nav{
+            font-size:16px !important;
+        }
+        .panel-title{
+            font-size:16px !important;
+        }
+        p{
+            font-size:15px !important;
+        }
+        button{
+            font-size:16px !important;
+        }
+        </style>
 
     </head>
     <body class="page-header-fixed compact-menu page-horizontal-bar">

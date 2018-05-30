@@ -31,6 +31,8 @@ if(isset($_POST['simpan'])){
   if($sid_provinsi==""){
     $insert=$h->exec("INSERT INTO data_provinsi(id_provinsi,nama_provinsi,nama_balai) VALUES(?,?,?)",array($id_provinsi,$nama_provinsi,$nama_balai));
     if($insert){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Menambah data provinsi dengan id ".$id_provinsi.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='data-provinsi.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -39,6 +41,8 @@ if(isset($_POST['simpan'])){
   }else{
     $update=$h->exec("UPDATE data_provinsi SET id_provinsi=?,nama_provinsi=?,nama_balai=? WHERE id_provinsi=?",array($id_provinsi,$nama_provinsi,$nama_balai,$sid_provinsi));
     if($update){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Mengedit data provinsi dengan id ".$sid_provinsi.""));
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
       <a href='data-provinsi.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{

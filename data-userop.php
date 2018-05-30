@@ -1,8 +1,8 @@
 <?php
 include_once 'navbar.php';
-/*if ($_SESSION['nama_unit_kerja']!="Admin") {
+if ($_SESSION['tipe']!=1) {
   header("location:aksesditolak.php");
-}*/
+}
 require_once "helper/helper.php";
 $h=new Helper();
 $skode_satuan_kerja="";
@@ -36,7 +36,9 @@ if(isset($_POST['simpan'])){
   if($skode_satuan_kerja==""){
     $insert=$h->exec("INSERT INTO data_user(kode_satuan_kerja,nama_satuan_kerja,id_provinsi,alamat,password) VALUES(?,?,?,?,?)",
     array($kode_satuan_kerja,$nama_satuan_kerja,$id_provinsi,$alamat,$password));
-    if($insert){
+    if($insert){    
+    $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+    array($_SESSION['kode_satuan_kerja'],"Menambah data user dengan id ".$kode_satuan_kerja.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='data-user.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -46,6 +48,8 @@ if(isset($_POST['simpan'])){
     $update=$h->exec("UPDATE data_user SET kode_satuan_kerja=?,nama_satuan_kerja=?,id_provinsi=?,alamat=?,password=? WHERE kode_satuan_kerja=?",
     array($kode_satuan_kerja,$nama_satuan_kerja,$id_provinsi,$alamat,$password,$skode_satuan_kerja));
     if($update){
+        $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+        array($_SESSION['kode_satuan_kerja'],"Mengedit data user dengan id ".$skode_satuan_kerja.""));
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
       <a href='data-user.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{

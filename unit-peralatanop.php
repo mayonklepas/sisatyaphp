@@ -28,6 +28,8 @@ if(isset($_POST['simpan'])){
   if($sid_unit==""){
     $insert=$h->exec("INSERT INTO data_unit(id_unit,nama_unit) VALUES(?,?)",array($id_unit,$nama_unit));
     if($insert){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Menambah data unit peralatan dengan id ".$id_unit.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='unit-peralatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -36,6 +38,8 @@ if(isset($_POST['simpan'])){
   }else{
     $update=$h->exec("UPDATE data_unit SET id_unit=?,nama_unit=? WHERE id_unit=?",array($id_unit,$nama_unit,$sid_unit));
     if($update){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Mengubah data unit peralatan dengan id ".$sid_unit.""));
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
       <a href='unit-peralatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{

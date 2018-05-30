@@ -13,8 +13,9 @@ if(isset($_POST['login'])){
   $jumlah=0;
   $username=$_POST['username'];
   $password=$_POST['password'];
+  $tipe=0;
   $datalogin=$h->read("SELECT COUNT(kode_satuan_kerja) AS jumlah, kode_satuan_kerja,nama_satuan_kerja,data_user.id_provinsi,
-  alamat,password,nama_provinsi FROM data_user
+  alamat,password,nama_provinsi,tipe FROM data_user
     INNER JOIN data_provinsi ON data_user.id_provinsi=data_provinsi.id_provinsi WHERE kode_satuan_kerja=? AND password=? LIMIT 1",array($username,$password));
   foreach ($datalogin as  $value) {
     $kode_satuan_kerja=$value['kode_satuan_kerja'];
@@ -24,6 +25,7 @@ if(isset($_POST['login'])){
     $password=$value['password'];
     $nama_provinsi=$value['nama_provinsi'];
     $jumlah=$value['jumlah'];
+    $tipe=$value['tipe'];
   }
   if($jumlah==1){
     session_start();
@@ -33,6 +35,7 @@ if(isset($_POST['login'])){
     $_SESSION['alamat']=$alamat;
     $_SESSION['password']=$password;
     $_SESSION['nama_provinsi']=$nama_provinsi;
+    $_SESSION['tipe']=$tipe;
     header("location:index.php");
   }else{
     $notif="<div class='alert alert-danger'>User atau password salah</div>";
@@ -46,7 +49,7 @@ if(isset($_POST['login'])){
     <head>
 
         <!-- Title -->
-        <title>Modern | Login - Sign in</title>
+        <title>SISATYA | Sistem Informasi Satuan Biaya</title>
 
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta charset="UTF-8">
@@ -79,6 +82,12 @@ if(isset($_POST['login'])){
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+        <style>
+        button{
+            font-size:16px !important;
+        }
+        </style>
+
     </head>
     <body class="page-login">
         <main class="page-content">
@@ -88,7 +97,7 @@ if(isset($_POST['login'])){
                         <div class="col-md-3 center">
                             <div class="login-box">
                                 <a href="index.html" class="logo-name text-lg text-center">SISATYA</a>
-                                <p class="text-center m-t-md">Login untuk menggunakan aplikasi.</p>
+                                <p class="text-center m-t-lg text-md">Sistem Informasi Satuan Biaya</p>
                                 <form class="m-t-md" action="" method="post">
                                     <div class="form-group">
                                         <input type="text" class="form-control" placeholder="Email" required name="username">
@@ -98,7 +107,7 @@ if(isset($_POST['login'])){
                                     </div>
                                     <button type="submit" class="btn btn-success btn-block" name="login">Login</button>
                                 </form>
-                                <p class="text-center m-t-xs text-sm">2015 &copy; Modern by Steelcoders.</p>
+                                <p class="text-center m-t-md"><?php echo date("Y")?> &copy; Badan Meteorologi dan Geofisika</p>
                             </div>
                         </div>
                     </div><!-- Row -->

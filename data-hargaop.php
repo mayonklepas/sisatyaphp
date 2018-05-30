@@ -40,7 +40,7 @@ $dataperalatan=$h->read("SELECT id_peralatan,nama_perangkat FROM data_peralatan 
 if(isset($_POST['simpan'])){
   $tms=new DateTime();
   $id_harga=$tms->getTimeStamp();
-  $tanggal=$_POST['tanggal'];
+  $tanggal=date("Y-m-d");
   $tahun=$_POST['tahun_harga'];
   $id_peralatan=$_POST['id_peralatan'];
   $nama_perangkat=$_POST['nama_perangkat'];
@@ -50,6 +50,8 @@ if(isset($_POST['simpan'])){
     $insert=$h->exec("INSERT INTO data_harga(id_harga,tanggal,tahun_harga,id_peralatan,harga_tahun,id_provinsi,kode_satuan_kerja) VALUES(?,?,?,?,?,?,?)",
     array($id_harga,$tanggal,$tahun,$id_peralatan,$harga_tahun,$id_provinsi,$_SESSION['kode_satuan_kerja']));
     if($insert){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Menambah data harga dengan id ".$id_harga.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='data-harga.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -59,6 +61,8 @@ if(isset($_POST['simpan'])){
     $update=$h->exec("UPDATE data_harga SET id_harga=?,tanggal=?,tahun_harga=?,id_peralatan=?,harga_tahun=?,id_provinsi=?,kode_satuan_kerja=? WHERE id_harga=?",
     array($id_harga,$tanggal,$tahun,$id_peralatan,$harga_tahun,$id_provinsi,$_SESSION['kode_satuan_kerja'],$sid_harga));
     if($update){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Mengedit data harga dengan id ".$sid_harga.""));
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
       <a href='data-harga.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -117,12 +121,6 @@ if(isset($_POST['simpan'])){
     </div>
     <div class="panel-body">
         <form class="form-horizontal aksi" method="POST">
-            <div class="form-group">
-                <label for="input-Default" class="col-sm-2 control-label">Tanggal</label>
-                <div class="col-sm-10">
-                <input type="date" name="tanggal" value="<?php echo $stanggal?>" class="form-control">
-                </div>
-            </div>
             <div class="form-group">
                 <label for="input-Default" class="col-sm-2 control-label">Tahun</label>
                 <div class="col-sm-10">

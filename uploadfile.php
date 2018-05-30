@@ -57,6 +57,8 @@ if(isset($_POST['simpan'])){
     try {
       move_uploaded_file($tmp_file,"file/".$namabarufile);
         $h->exec("UPDATE data_kegiatan SET ".$fieldkat."=? WHERE id=? ",array($namabarufile,$id));
+        $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+        array($_SESSION['kode_satuan_kerja'],"Mengupload data dukung ".$fieldkat." dengan nama ".$namabarufile.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='data-kegiatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     } catch (Exception $e) {

@@ -42,7 +42,22 @@ if(isset($_POST['cari'])){
   array("%".$key."%","%".$key."%","%".$key."%","%".$key."%"));
 }
 
+if(isset($_POST['filter'])){
+  $tahun=$_POST['tahun'];
+  $notif="<div class='alert alert-success'>Hasil Filter Tahun : <b>".$tahun."</b></div>";
+  $dataharga=$h->read("SELECT id_harga,tanggal,tahun_harga,data_harga.id_peralatan,nama_perangkat,harga_tahun,data_dukung,nama_provinsi FROM data_harga
+    INNER JOIN data_peralatan ON data_harga.id_peralatan=data_peralatan.id_peralatan
+    LEFT JOIN data_provinsi ON data_harga.id_provinsi=data_provinsi.id_provinsi
+    WHERE tahun_harga = ? 
+    ORDER BY id_harga ASC ",
+  array($tahun));
+}
+
+
 $jumlahpage=ceil($jumlahdata / $limit);
+
+$h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+array($_SESSION['kode_satuan_kerja'],"Melihat data harga"));
 
 ?>
 
@@ -105,9 +120,31 @@ $(document).ready(function(){
                         <h4 class="panel-title">Data Harga Peralatan</h4>
                     </div>
                     <div class="panel-body">
+                      
+
+                      <div class="row">
+                      
                       <form class="" action="" method="post" style="margin-top:5px">
-                        <input type="text" name="cari" value="" placeholder="Cari Data" class="form-control">
+                      <div class=col-lg-6>
+                      <input type="text" name="cari" value="" placeholder="Cari Data" class="form-control">
+                      </div>
                       </form>
+
+                      <form class="" action="" method="post" style="margin-top:5px">
+                      <div class=col-lg-4>
+                      <select name="tahun" id="" class="form-control">
+                      <?php for ($i=date("Y")-10 ; $i < date("Y")+10 ; $i++ ): ?>
+                      <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                      <?php endfor; ?>
+                      </select>
+                      </div>
+
+                      <div class="col-lg-2"><button type="submit" name="filter" class="form-control default"> Filter </button></div>
+                      </form>
+                      
+                      </div>
+
+                      
                       <br>
                       <?php echo $notif;?>
                       <a href="data-hargaop.php" class="btn btn-primary"><i class="menu-icon icon-plus"></i> Tambah</a>
@@ -116,7 +153,6 @@ $(document).ready(function(){
                             <thead>
                                 <tr>
                                   <th>Kode</th>
-                                  <th>Tanggal</th>
                                   <th>Tahun</th>
                                   <th>Nama Peralatan</th>
                                   <th>Provinsi</th>
@@ -128,7 +164,6 @@ $(document).ready(function(){
                             <tfoot>
                               <tr>
                                 <th>Kode</th>
-                                <th>Tanggal</th>
                                 <th>Tahun</th>
                                 <th>Nama Peralatan</th>
                                 <th>Provinsi</th>
@@ -141,7 +176,6 @@ $(document).ready(function(){
                               <?php foreach ($dataharga as $value): ?>
                                 <tr>
                                   <td><?php echo $value['id_harga'] ?></td>
-                                  <td><?php echo $value['tanggal'] ?></td>
                                   <td><?php echo $value['tahun_harga'] ?></td>
                                   <td><?php echo substr($value['nama_perangkat'],0,50) ?></td>
                                   <td><?php echo $value['nama_provinsi'] ?></td>

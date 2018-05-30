@@ -31,12 +31,16 @@ if(isset($_POST['simpan'])){
   if($sid_sub_jenis==""){
     $insert=$h->exec("INSERT INTO data_sub_jenis(id_sub_jenis,id_jenis,nama_sub_jenis) VALUES(?,?)",array($id_sub_jenis,$id_jenis,$nama_sub_jenis));
     if($insert){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Menambah data sub jenis peralatan dengan id ".$id_sub_jenis.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='sub-jenis-peralatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
       $notif="<div class='alert alert-danger'>Data Gagal Disimpan cek koneksi</b></div>";
     }
   }else{
+    $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+    array($_SESSION['kode_satuan_kerja'],"Mengedit data sub jenis peralatan dengan id ".$sid_sub_jenis.""));
     $update=$h->exec("UPDATE data_sub_jenis SET id_sub_jenis=?,id_jenis=?,nama_sub_jenis=? WHERE id_sub_jenis=?",array($id_sub_jenis,$id_jenis,$nama_sub_jenis,$sid_sub_jenis));
     if($update){
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
@@ -49,6 +53,8 @@ if(isset($_POST['simpan'])){
 }
 
 $datajenis=$h->read("SELECT id_jenis,nama_jenis FROM data_jenis ORDER BY id_jenis ASC",null);
+
+
 
 ?>
 

@@ -32,6 +32,8 @@ if(isset($_POST['cari'])){
 }
 
 $jumlahpage=ceil($jumlahdata / $limit);
+$h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+array($_SESSION['kode_satuan_kerja'],"Melihat data provinsi"));
 
 ?>
 

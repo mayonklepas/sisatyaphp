@@ -39,6 +39,10 @@ if(isset($_POST['cari'])){
 
 $jumlahpage=ceil($jumlahdata / $limit);
 
+
+$h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+array($_SESSION['kode_satuan_kerja'],"Melihat data user"));
+
 ?>
 
 <script type="text/javascript">
@@ -106,7 +110,9 @@ $(document).ready(function(){
                       </form>
                       <br>
                       <?php echo $notif;?>
+                      <?php if($_SESSION['tipe']==1):?>
                       <a href="data-userop.php" class="btn btn-primary"><i class="menu-icon icon-plus"></i> Tambah</a>
+                      <?php endif;?>
                        <div class="table-responsive">
                         <table id="example" class="display table" style="width: 100%; cellspacing: 0;">
                             <thead>
@@ -115,7 +121,9 @@ $(document).ready(function(){
                                   <th>Nama Satuan Kerja</th>
                                   <th>Nama Provinsi</th>
                                   <th>Alamat</th>
+                                  <?php if($_SESSION['tipe']==1):?>
                                   <th>Operasi</th>
+                                  <?php endif;?>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -124,7 +132,9 @@ $(document).ready(function(){
                                 <th>Nama Satuan Kerja</th>
                                 <th>Nama Provinsi</th>
                                 <th>Alamat</th>
+                                <?php if($_SESSION['tipe']==1):?>
                                 <th>Operasi</th>
+                                <?php endif;?>
                               </tr>
                             </tfoot>
                             <tbody>
@@ -134,10 +144,12 @@ $(document).ready(function(){
                                   <td><?php echo substr($value['nama_satuan_kerja'],0,30) ?></td>
                                   <td><?php echo $value['nama_provinsi'] ?></td>
                                   <td><?php echo substr($value['alamat'],0,30) ?></td>
+                                  <?php if($_SESSION['tipe']==1):?>
                                   <td>
                                     <a style="margin-top:5px" href="data-userop.php?id=<?php echo $value['kode_satuan_kerja']?>" class="btn btn-info" data-toggle="tooltip" title="Detail / Edit Data"><i class="menu-icon icon-note"></i></a>
                                     <a style="margin-top:5px" href="#" class="btn hapus btn-danger" data-id="<?php echo $value['kode_satuan_kerja']?>" data-toggle="tooltip" title="Hapus Data"><i class="menu-icon icon-trash"></i></a>
                                   </td>
+                                  <?php endif;?>
                                 </tr>
                               <?php endforeach; ?>
                             </tbody>

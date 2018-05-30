@@ -28,6 +28,8 @@ if(isset($_POST['simpan'])){
   if($sid_balai==""){
     $insert=$h->exec("INSERT INTO data_balai(id_balai,nama_balai) VALUES(?,?)",array($id_balai,$nama_balai));
     if($insert){
+        $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+        array($_SESSION['kode_satuan_kerja'],"Menambah data balai dengan id ".$id_balai.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='data-balai.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -36,6 +38,8 @@ if(isset($_POST['simpan'])){
   }else{
     $update=$h->exec("UPDATE data_balai SET id_balai=?,nama_balai=? WHERE id_balai=?",array($id_balai,$nama_balai,$sid_balai));
     if($update){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Mengedit data balai dengan id ".$sid_balai.""));
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
       <a href='data-balai.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{

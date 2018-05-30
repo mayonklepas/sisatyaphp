@@ -51,6 +51,8 @@ if(isset($_POST['simpan'])){
     $insert=$h->exec("INSERT INTO data_peralatan(id_peralatan,id_jenis,id_unit,nama_perangkat,umur_teknis_alat,keterangan,no_perka) VALUES(?,?,?,?,?,?,?)",
     array($id_peralatan,$id_jenis,$id_unit,$nama_perangkat,$umur_teknis_alat,$keterangan,$no_perka));
     if($insert){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Menambah data peralatan dengan id ".$id_peralatan.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='data-peralatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -60,6 +62,8 @@ if(isset($_POST['simpan'])){
     $update=$h->exec("UPDATE data_peralatan SET id_peralatan=?,id_jenis=?,id_unit=?,nama_perangkat=?,umur_teknis_alat=?,keterangan=?,no_perka=? WHERE id_peralatan=?",
     array($id_peralatan,$id_jenis,$id_unit,$nama_perangkat,$umur_teknis_alat,$keterangan,$no_perka,$sid_peralatan));
     if($update){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Mengedit data peralatan dengan id ".$sid_peralatan.""));
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
       <a href='data-peralatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{

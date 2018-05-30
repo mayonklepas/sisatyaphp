@@ -33,6 +33,8 @@ if(isset($_POST['simpan'])){
   if($sid_sub_kategori==""){
     $insert=$h->exec("INSERT INTO data_sub_kategori(id_sub_kategori,id_kategori,nama_sub_kategori) VALUES(?,?,?)",array($id_sub_kategori,$id_kategori,$nama_sub_kategori));
     if($insert){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Menambah data sub kategori peralatan dengan id ".$id_sub_kategori.""));
         $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
          <a href='sub-kategori-peralatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{
@@ -41,6 +43,8 @@ if(isset($_POST['simpan'])){
   }else{
     $update=$h->exec("UPDATE data_sub_kategori SET id_sub_kategori=?,id_kategori=?,nama_sub_kategori=? WHERE id_sub_kategori=?",array($id_sub_kategori,$id_kategori,$nama_sub_kategori,$sid_sub_kategori));
     if($update){
+      $h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+      array($_SESSION['kode_satuan_kerja'],"Mengubah data sub kategori peralatan dengan id ".$sid_sub_kategori.""));
       $notif="<div class='alert alert-success'><b>Data Berhasil Disimpan</b>
       <a href='sub-kategori-peralatan.php' style='color:red;'> <i class='pe-7s-back'></i> Kembali ke Data </a></div>";
     }else{

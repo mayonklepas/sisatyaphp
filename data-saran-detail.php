@@ -15,6 +15,8 @@ if(isset($_GET['id'])){
       $sjudul=$value['judul'];
       $spesan=$value['pesan'];
   }
+$h->exec("INSERT INTO log_aktivitas (id_user,aksi) VALUES(?,?)",
+array($_SESSION['kode_satuan_kerja'],"Melihat data saran dengan id ".$sid.""));
 }
 
 
