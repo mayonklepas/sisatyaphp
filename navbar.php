@@ -203,7 +203,7 @@ $datapesan=$h->read("SELECT id,tanggal,data_saran.kode_satuan_kerja,nama_satuan_
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">
                                         <!--<li role="presentation"><a href="lock-screen.html"><i class="fa fa-lock"></i>Lock screen</a></li>-->
-                                        <li role="presentation"><a href="logout.php"><i class="fa fa-sign-out m-r-xs"></i>Log out</a></li>
+                                        <li role="presentation"><a href="logout.php"><i class="fa fa-sign-out m-r-xs"></i>Log out <?php echo $_SESSION['tipe'] ?></a></li>
                                     </ul>
                                 </li>
                             </ul><!-- Nav -->
@@ -228,6 +228,10 @@ $datapesan=$h->read("SELECT id,tanggal,data_saran.kode_satuan_kerja,nama_satuan_
                         </li>
                         <li><a href="data-peralatan.php"><span class="menu-icon icon-layers"></span><p>Data Peralatan</p></a></li>
                         <li><a href="data-harga.php"><span class="menu-icon icon-tag"></span><p>Data Harga Peralatan</p></a></li>
+                        <?php if ($_SESSION['tipe']==1): ?>
+                        <li><a href="log.php"><span class="menu-icon icon-book"></span><p>Log Aktivitas</p></a></li>
+                        <?php endif ;?>
+                        
                     </ul>
                 </div><!-- Page Sidebar Inner -->
             </div><!-- Page Sidebar -->

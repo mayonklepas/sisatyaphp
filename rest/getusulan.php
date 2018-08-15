@@ -15,7 +15,7 @@ if(isset($_POST['key'])){
          OR dah.nama_alat LIKE ?
          OR dah.satuan_alat LIKE ?
          OR du.nama_satuan_kerja LIKE ?
-         OR dah.tanggal LIKE ?) AND EXTRACT(YEAR FROM dah.tanggal) = YEAR(NOW()) ",array($keyword,$keyword,$keyword,$keyword,$keyword));
+         OR dah.tanggal LIKE ?) AND EXTRACT(YEAR FROM dah.tanggal) = YEAR(NOW()) AND status=0 ",array($keyword,$keyword,$keyword,$keyword,$keyword));
       $res=array(array('kode' =>  0, 'keterangan'=>'sukses'));
       echo json_encode(array('status' => $res, 'data'=>$data) );
     }else {
@@ -23,7 +23,7 @@ if(isset($_POST['key'])){
          dah.harga, dah.tanggal, dah.data_dukung,dp.nama_balai FROM data_acuan_harga dah
          INNER JOIN data_user du ON dah.id_user=du.kode_satuan_kerja
          INNER JOIN data_provinsi dp ON du.id_provinsi=dp.id_provinsi
-         WHERE EXTRACT(YEAR FROM dah.tanggal) = YEAR(NOW())",null);
+         WHERE EXTRACT(YEAR FROM dah.tanggal) = YEAR(NOW()) AND status=0",null);
       $res=array(array('kode' =>  0, 'keterangan'=>'sukses'));
       echo json_encode(array('status' => $res, 'data'=>$data) );
     }

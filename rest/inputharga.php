@@ -11,9 +11,12 @@ if(isset($_POST['key'])){
     $nama_alat=$_POST['nama_alat'];
     $satuan_alat=$_POST['satuan_alat'];
     $harga=$_POST['harga'];
-    $insert=$h->exec("INSERT INTO data_acuan_harga(id_acuan, id_user, kode_alat, nama_alat, satuan_alat, harga,data_dukung)
-     VALUES (?,?,?,?,?,?,'none')",
-    array($id_acuan, $id_user, $kode_alat, $nama_alat, $satuan_alat, $harga));
+    $filenama=$_POST['filenama'];
+    $insert=$h->exec("INSERT INTO data_acuan_harga(id_acuan, id_user, kode_alat, nama_alat, satuan_alat, harga,data_dukung) VALUES (?,?,?,?,?,?,?)",
+    array($id_acuan, $id_user, $kode_alat, $nama_alat, $satuan_alat, $harga,$filenama));
+    if($insert){
+      file_put_contents("../file-dukung/".$filenama,base64_decode($_POST['file']));
+    }
   $res=array(array('kode' => 0 , 'keterangan'=>'Pesan Berhasil Dikirim'));
   echo json_encode(array('status' => $res));
 }else{
